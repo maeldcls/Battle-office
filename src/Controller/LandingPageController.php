@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +18,8 @@ class LandingPageController extends AbstractController
     #[Route('/',name:'landing_page')]
     public function index(Request $request)
     {
-        //Your code here
 
+      
         return $this->render('landing_page/index_new.html.twig', [
 
         ]);
@@ -29,6 +30,7 @@ class LandingPageController extends AbstractController
     #[Route('/confirmation',name:'confirmation')]
     public function confirmation()
     {
+        
         return $this->render('landing_page/confirmation.html.twig', [
 
         ]);
