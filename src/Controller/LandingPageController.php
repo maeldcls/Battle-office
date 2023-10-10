@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,9 +17,10 @@ class LandingPageController extends AbstractController
      * @throws \Exception
      */
     #[Route('/',name:'landing_page')]
-    public function index(Request $request)
+    public function index(Request $request, ProductRepository $productRepository)
     {
-
+        $products = $productRepository->findAll();
+        dd($products);
       
         return $this->render('landing_page/index_new.html.twig', [
 
@@ -30,7 +32,7 @@ class LandingPageController extends AbstractController
     #[Route('/confirmation',name:'confirmation')]
     public function confirmation()
     {
-        
+        dd('confirmation');
         return $this->render('landing_page/confirmation.html.twig', [
 
         ]);

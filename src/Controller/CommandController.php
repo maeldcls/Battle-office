@@ -25,6 +25,7 @@ class CommandController extends AbstractController
     #[Route('/new', name: 'app_command_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        dd('test');
         $command = new Command();
         $form = $this->createForm(Command1Type::class, $command);
         $form->handleRequest($request);
