@@ -10,6 +10,7 @@
 </style>
 
 {# Etape 2 #}
+   {{ form_start(form) }}
 <div class="card step_2">
     <div class="card-content">
         <span class="card-title color_product_primary center-align">Étape 2</span>
@@ -17,54 +18,58 @@
         <div class="form-wrapper">
             <div class="input-field">
                 
-                <label>Prénom</label>
+                {{ form_widget(form.adressBilling.firstName) }}
+				{{ form_label(form.adressBilling.firstName, 'Prénom')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Nom</label>
+                {{ form_widget(form.adressBilling.lastName) }}
+				{{ form_label(form.adressBilling.lastName, 'Nom')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Adresse</label>
+                {{ form_widget(form.adressBilling.adress) }}
+				{{ form_label(form.adressBilling.adress, 'Adresse')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Complément adr.</label>
+                {{ form_widget(form.adressBilling.complementaryAdress) }}
+				{{ form_label(form.adressBilling.complementaryAdress, 'Complément adr.')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Ville</label>
+                {{ form_widget(form.adressBilling.city) }}
+				{{ form_label(form.adressBilling.city, 'Ville')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Code postal</label>
+                {{ form_widget(form.adressBilling.zipCode) }}
+				{{ form_label(form.adressBilling.zipCode, 'Code Postal')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
                 <select>
-                    <option>France</option>
+                    {% for country in countries %}
+                        <option value="{{ country.country }}">{{ country.country }}</option>
+                    {% endfor %}
+              
                 </select>
                 <label>Pays</label>
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Téléphone</label>
+                {{ form_widget(form.adressBilling.phone) }}
+				{{ form_label(form.adressBilling.phone, 'Téléphone')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Email</label>
+                {{ form_widget(form.client.mail) }}
+				{{ form_label(form.client.mail, 'Email')}}
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-                <input type="text">
-                <label>Confirmation email</label>
+               <input type="text">
+                <label>confirmation email</label>
                 <div class="form-error"></div>
             </div>
         </div>
@@ -74,45 +79,47 @@
             <div class="collapsible-header"><i class="material-icons">markunread_mailbox</i>Adresse de livraison différente ?</div>
             <div class="collapsible-body">
                 <div class="input-field">
-                    <input type="text">
-                    <label>Prénom</label>
+                    {{ form_widget(form.adressDelivery.firstName) }}
+				{{ form_label(form.adressDelivery.firstName, 'Prénom')}}
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
-                    <input type="text">
-                    <label>Nom</label>
+                    {{ form_widget(form.adressDelivery.lastName) }}
+				{{ form_label(form.adressDelivery.lastName, 'Nom')}}
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
-                    <input type="text">
-                    <label>Adresse</label>
+                     {{ form_widget(form.adressDelivery.adress) }}
+				{{ form_label(form.adressDelivery.adress, 'Adresse')}}
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
-                    <input type="text">
-                    <label>Complément adr.</label>
+                    {{ form_widget(form.adressDelivery.complementaryAdress) }}
+				{{ form_label(form.adressDelivery.complementaryAdress, 'Complément adr.')}}
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
-                    <input type="text">
-                    <label>Ville</label>
+                    {{ form_widget(form.adressDelivery.city) }}
+				{{ form_label(form.adressDelivery.city, 'Ville')}}
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
-                    <input type="text">
-                    <label>Code postal</label>
+                    {{ form_widget(form.adressDelivery.zipCode) }}
+				{{ form_label(form.adressDelivery.zipCode, 'Code Postal')}}
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
                     <select>
-                        <option>France</option>
+                        {% for country in countries %}
+                            <option value="{{ country.country }}">{{ country.country }}</option>
+                        {% endfor %}
                     </select>
                     <label>Pays</label>
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
-                    <input type="text">
-                    <label>Téléphone</label>
+                   {{ form_widget(form.adressDelivery.phone) }}
+				    {{ form_label(form.adressDelivery.phone, 'Téléphone')}}
                     <div class="form-error"></div>
                 </div>
             </div>
@@ -130,7 +137,7 @@
                 <div class="collapsible-body card-form">
                     <div class="row">
                         <div class="center-align">
-                            <button type="submit" name="order[payment_method]" value="lpmonetico" class="btn-large btn-block waves-effect waves-light">Continuer</button>
+                            <button type="submit" href='{{ path('landing_page') }}' name="order[payment_method]" value="lpmonetico" class="btn-large btn-block waves-effect waves-light">Continuer</button>
                             <p>J'accepte les <a href="https://feelwellshop.com/fr/conditions-generales-de-ventes" target="_blank">conditions générales de vente</a></p>
                             <img class="responsive-img monetico" src="assets/images/paiement-securise-stripe.jpeg" alt="Stripe protège vos achats">
                         </div>
@@ -142,7 +149,8 @@
                 <div class="collapsible-body">
                     <div class="row">
                         <div class="center-align">
-                            <button type="submit" name="order[payment_method]" value="lppaypal" class="btn-large btn-block waves-effect waves-light">Continuer sur PayPal</button>
+                        
+                            <button type="submit" href='{{ path('landing_page') }}' name="order[payment_method]" value="lppaypal" class="btn-large btn-block waves-effect waves-light">Continuer sur PayPal</button>
                             <p>J'accepte les <a href="https://feelwellshop.com/fr/conditions-generales-de-ventes" target="_blank">conditions générales de vente</a></p>
                         </div>
                     </div>
@@ -151,3 +159,4 @@
         </ul>
     </div>
 </div>
+{{ form_end(form) }}

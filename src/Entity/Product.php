@@ -36,6 +36,9 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
+
+
+
     public function __construct()
     {
         $this->commands = new ArrayCollection();
@@ -133,6 +136,11 @@ class Product
         return $this;
     }
 
+    public function eco(): int
+    {
+        return $this->fullPrice - $this->reducPrice;
+    }
+
     public function getPicture(): ?string
     {
         return $this->picture;
@@ -144,4 +152,5 @@ class Product
 
         return $this;
     }
+
 }

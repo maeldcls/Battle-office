@@ -25,21 +25,22 @@ class CommandController extends AbstractController
     #[Route('/new', name: 'app_command_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        dd('test');
-        $command = new Command();
-        $form = $this->createForm(Command1Type::class, $command);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($command);
-            $entityManager->flush();
+        // $command = new Command();
+        // dd($command);
+        // $form = $this->createForm(CommandType::class, $command);
+        // $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_command_index', [], Response::HTTP_SEE_OTHER);
-        }
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $entityManager->persist($command);
+        //     $entityManager->flush();
+
+        //     return $this->redirectToRoute('app_command_index', [], Response::HTTP_SEE_OTHER);
+        // }
 
         return $this->render('command/new.html.twig', [
-            'command' => $command,
-            'form' => $form,
+            // 'command' => $command,
+            // 'form' => $form,
         ]);
     }
 

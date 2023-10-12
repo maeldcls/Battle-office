@@ -25,7 +25,18 @@ class Adress
     #[ORM\Column]
     private ?int $zipCode = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+  
+
+    #[ORM\Column(length: 255)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $phone = null;
+
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?Country $country = null;
 
@@ -82,12 +93,50 @@ class Adress
         return $this;
     }
 
+  
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
     public function getCountry(): ?Country
     {
         return $this->country;
     }
 
-    public function setCountry(Country $country): static
+    public function setCountry(?Country $country): static
     {
         $this->country = $country;
 
