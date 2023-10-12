@@ -9,6 +9,7 @@ use App\Entity\Country;
 use App\Entity\Payment;
 use App\Form\CommandType;
 use App\Repository\CountryRepository;
+use App\Repository\PaymentRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,40 +25,40 @@ class LandingPageController extends AbstractController
      * @throws \Exception
      */
     #[Route('/',name:'landing_page', methods: ['GET', 'POST'])]
-    public function index(Request $request, ProductRepository $productRepository, CountryRepository $countryRepository, EntityManagerInterface $entityManager)
+    public function index(Request $request, ProductRepository $productRepository, CountryRepository $countryRepository,PaymentRepository $paymentRepository, EntityManagerInterface $entityManager)
     {
-        
-       
-
+  
         $command = new Command();
+        $payment = new Payment();
+        
  
         $form = $this->createForm(CommandType::class, $command);
 
         $form->handleRequest($request);
      
         if ($form->isSubmitted()) {
-          
-            $payment = new Payment();
-            $country = new Country();
-            $country->setCountry("fronce");
- 
-            $adress = new Adress();
-            $payment->setPaymentMethod("paypal");
-            
            
-             $command->setClient($command->getClient());
-             $command->setAdressBilling($command->getAdressBilling());
-             $command->getAdressBilling()->setCountry($country);
-
-             $country->setCountry("belgiuquekjdsfnk");
-             $command->setAdressDelivery($command->getAdressDelivery());
-             $command->getAdressDelivery()->setCountry($country);
-             //$command->setPayment($command->getPayment());
-            $command->setStatus("validé");
-            $command->setPayment($payment);
+            $selectedProductID = $request->request->get('selected_product_id');
+            $product = $productRepository->find($selectedProductID);
+           
+           $method = $request->request->get('paiement');
+           $payment = $paymentRepository->findOneBy(['paymentMethod' => $method]);
+           
+           $countryDId = $request->request->get('countryDelivery');
+           $countryD = $countryRepository->find($countryDId);
+           
+           $countryBId = $request->request->get('countryBilling');
+           $countryB = $countryRepository->find($countryBId);
           
             $command = $form->getData();
-            
+                  
+            $command->getAdressDelivery()->setCountry($countryD);
+            $command->getAdressBilling()->setCountry($countryB);
+            $command->addProduct($product);
+            $command->setStatus("validé");
+            $command->setPayment($payment);
+     
+
             $entityManager->persist($command->getClient());
             $entityManager->persist($command->getAdressDelivery()->getCountry());
             $entityManager->persist($command->getAdressBilling()->getCountry());
@@ -68,7 +69,7 @@ class LandingPageController extends AbstractController
             return $this->redirectToRoute('confirmation');
         }
 
-        return $this->render('landing_page/confirmation.html.twig', [
+        return $this->render('landing_page/index_new.html.twig', [
             'form' => $form,
             'products'=>$productRepository->findAll(),
             'countries'=>$countryRepository->findAll(),

@@ -25,7 +25,7 @@
             </div>
         </div>
     </section>
-
+   {{ form_start(form) }}
         <div class="container">
             <div class="row">
                 <div class="content col s12 m12 l8">
@@ -39,7 +39,7 @@
                         </div>
                     {% for product in products %}
                         <label class="cure-radio">
-                            <input name="order[cart][cart_products][0]" value="{{ product.id }}" type="radio">
+                            <input name="selected_product_id" type="radio" value="{{ product.id }}">
                             <article>
                                 <div class="card center-align">
                                     <div class="row">
@@ -212,5 +212,5 @@
                 </aside>
             </div>
         </div>
-    </form>
+    {{ form_end(form) }}
 {% endblock %}
