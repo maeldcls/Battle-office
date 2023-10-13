@@ -3,8 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Adress;
+use App\Entity\Country;
 use App\Form\CountryType as FormCountryType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,9 +22,9 @@ class AdressType extends AbstractType
             ->add('zipCode')
             ->add('firstName')
             ->add('lastName')
-            ->add('phone')
-            ->add('country', CountryType::class, [
-                
+            ->add('phone', TelType::class)
+            ->add('country', EntityType::class, [
+                'class' => Country::class
             ])
         ;
     }

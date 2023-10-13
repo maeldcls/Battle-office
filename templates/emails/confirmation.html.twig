@@ -404,7 +404,7 @@
                                             <tr>
                                                 <td valign="top" class="bodyContent">
                                                     <div mc:edit="std_content00">
-                                                        <h1 class="h1">{{name|capitalize}}, votre commande est en cours de traitement</h1>
+                                                        {# <h1 class="h1">{{name|capitalize}}, votre commande est en cours de traitement</h1> #}
                                                         {#<strong>Getting started:</strong> Transactional emails serve a defined and simple purpose. They differ from traditional mass-emails because they're generally sent on a user-by-user basis, instead of large list of users, and are generally used to deliver purchase receipts, account updates, security notifications, and more.#}
                                                     </div>
                                                 </td>
@@ -428,10 +428,10 @@
                                                                 {{ "now"|date('d/m/Y') }}
                                                             </td>
                                                             <td valign="top" class="dataTableContent" mc:edit="data_table_content01">
-                                                                {{ product.name }}
+                                                                {# {{ product.name }} #}
                                                             </td>
                                                             <td valign="top" class="dataTableContent" mc:edit="data_table_content02">
-                                                                {{ product.price }} €
+                                                                {# {{ product.price }} € #}
                                                             </td>
                                                         </tr>
                                                     </table>

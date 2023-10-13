@@ -18,7 +18,7 @@ class Country
 
     public function __toString()
     {
-        return $this->getCountry();
+        return $this->country;
     }
 
     public function getId(): ?int

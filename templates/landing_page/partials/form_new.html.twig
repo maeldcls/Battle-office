@@ -48,12 +48,7 @@
                 <div class="form-error"></div>
             </div>
             <div class="input-field">
-               {# {{ form_widget(form.adressBilling.country.country) }} #}
-               <select name="countryBilling">
-                {% for country in countries %}
-                    <option value="{{ country.id }}">{{ country.country}}</option>
-                {% endfor %}
-               </select>
+               {{ form_widget(form.adressBilling.country) }}
                 <label>Pays</label>
                 <div class="form-error"></div>
             </div>
@@ -90,7 +85,7 @@
                 </div>
                 <div class="input-field">
                      {{ form_widget(form.adressDelivery.adress, {'required': false}) }}
-				{{ form_label(form.adressDelivery.adress, 'Adresse')}}
+				    {{ form_label(form.adressDelivery.adress, 'Adresse')}}
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
@@ -109,12 +104,7 @@
                     <div class="form-error"></div>
                 </div>
                 <div class="input-field">
-                        {# {{ form_widget(form.adressDelivery.country.country) }} #}
-                    <select name="countryDelivery" required="false">
-                        {% for country in countries %}
-                            <option value="{{ country.id }}">{{ country.country}}</option>
-                        {% endfor %}
-                    </select>
+                    {{ form_widget(form.adressDelivery.country) }} 
                     <label>Pays</label>
                     <div class="form-error"></div>
                 </div>

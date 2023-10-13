@@ -15,7 +15,7 @@ class Command
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commands')]
+    #[ORM\ManyToOne(inversedBy: 'commands', cascade: ['persist', 'remove'])]
     private ?Client $client = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'commands')]
