@@ -27,7 +27,7 @@ class LandingPageController extends AbstractController
     #[Route('/',name:'landing_page', methods: ['GET', 'POST'])]
     public function index(Request $request, ProductRepository $productRepository, CountryRepository $countryRepository,PaymentRepository $paymentRepository, EntityManagerInterface $entityManager)
     {
-  
+        
         $command = new Command();
         $payment = new Payment();
         
@@ -35,9 +35,9 @@ class LandingPageController extends AbstractController
         $form = $this->createForm(CommandType::class, $command);
 
         $form->handleRequest($request);
-     
-        if ($form->isSubmitted()) {
-           
+        
+        if ($form->isSubmitted()&& $form->isValid()){
+            
             $selectedProductID = $request->request->get('selected_product_id');
             $product = $productRepository->find($selectedProductID);
            
@@ -49,7 +49,7 @@ class LandingPageController extends AbstractController
            
            $countryBId = $request->request->get('countryBilling');
            $countryB = $countryRepository->find($countryBId);
-          
+           
             $command = $form->getData();
                   
             $command->getAdressDelivery()->setCountry($countryD);
@@ -57,13 +57,18 @@ class LandingPageController extends AbstractController
             $command->addProduct($product);
             $command->setStatus("validé");
             $command->setPayment($payment);
-     
+            
 
-            $entityManager->persist($command->getClient());
-            $entityManager->persist($command->getAdressDelivery()->getCountry());
-            $entityManager->persist($command->getAdressBilling()->getCountry());
-            $entityManager->persist($command);
-            $entityManager->flush();
+            if($command->getProduct() == null){
+                return $this->redirectToRoute('landing_page');
+            }else{
+                $entityManager->persist($command->getClient());
+                $entityManager->persist($command->getAdressDelivery()->getCountry());
+                $entityManager->persist($command->getAdressBilling()->getCountry());
+                $entityManager->persist($command);
+                $entityManager->flush();
+            }
+            
            
 
             return $this->redirectToRoute('confirmation');
