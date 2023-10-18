@@ -8,6 +8,7 @@ use App\Entity\Client;
 use App\Entity\Command;
 use App\Entity\Country;
 use App\Entity\Payment;
+use App\Entity\Product;
 use App\Form\CommandType;
 use App\Repository\CountryRepository;
 use App\Repository\PaymentRepository;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LandingPageController extends AbstractController
 {
@@ -90,7 +92,7 @@ class LandingPageController extends AbstractController
 
 
 
-            // FAIRE UN JSON
+            // fabrication json
             $client = [
                 'firstname' => $command->getAdressDelivery()->getFirstName(),
                 'lastname' => $command->getAdressDelivery()->getLastName(),
@@ -127,7 +129,7 @@ class LandingPageController extends AbstractController
                 'addresses' => $addresses
 
             ];
-            $order = ['order'=>$json];
+             $order = ['order'=>$json];
             $jsonString = json_encode($order);
     
             $token = 'mJxTXVXMfRzLg6ZdhUhM4F6Eutcm1ZiPk4fNmvBMxyNR4ciRsc8v0hOmlzA0vTaX';
@@ -137,15 +139,15 @@ class LandingPageController extends AbstractController
                 'verify' => false
             ]);
 
-            $response = $client->post('/order', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $token, // Add the Bearer token to the request headers
-                    'Content-Type' => 'application/json', // Set the Content-Type header
-                ],
-                'body' => $jsonString, // Set the JSON data as the request body
-            ]);
+             $response = $client->post('/order', [
+                 'headers' => [
+                     'Authorization' => 'Bearer ' . $token, // Add the Bearer token to the request headers
+                     'Content-Type' => 'application/json', // Set the Content-Type header
+                 ],
+                 'body' => $jsonString, // Set the JSON data as the request body
+             ]);
 
-            // Check the response
+            //Check the response
             if ($response->getStatusCode() === 200) {
                 // Request was successful
                 $responseData = json_decode($response->getBody(), true); // If the API returns JSON response
@@ -156,47 +158,68 @@ class LandingPageController extends AbstractController
                 echo 'API Request Failed: ' . $response->getStatusCode();
                 // You can handle error cases here
             }
-            return $this->redirectToRoute('confirmation');
-            // $response = $client->get('https://api-commerce.simplon-roanne.com/order/25/status');
-            // $data = json_decode($response->getBody()->getContents(), true);
-            // dd($data);
-            //  // data is an array with "name", "email", and "message" keys
+             $response = $client->get('https://api-commerce.simplon-roanne.com/order/25/status');
+             $data = json_decode($response->getBody()->getContents(), true);
+          
+         
 
-            //  $email = (new Email())
-            //  ->from("battle@office.com")
-            //  ->to($command->getClient()->getMail())
-            //  //->cc('cc@example.com')
-            //  //->bcc('bcc@example.com')
-            //  //->replyTo('fabien@example.com')
-            //  //->priority(Email::PRIORITY_HIGH)
-            //  ->subject('Confirmation de commande')
-            //  //->text('Sending emails is fun again!')
-            //  ->html('
-            //  <h2>Merci pour votre achat !'.' </h2>
-            //  <p>Détails de votre commande</p>
-            //  <p>Mail :'.$command->getClient()->getMail() .'</p>
-            //  <p>Produit :'.$command->getProduct()->getProductName()[0] .'</p>
-            //  <p>Quantité :'.$command->getProduct()->quantity() .'</p>
-            //  <p>Prix :'.$command->getProduct()->getReducPrice() .'</p>');
 
-            //  $mailer->send($email);
 
-            
-        }
 
+\Stripe\Stripe::setApiKey('sk_test_51O0mBCLp19bydb83PUkHWqWW7mWJcg11Gf1qDKiNMITxJNk9pZnD3AZcNyTwbLCAWAHCMG7CK7jrBnFO1u7vzOVG00uc0s569s');
+$successUrl = $this->generateUrl('confirmation', [], UrlGeneratorInterface::ABSOLUTE_URL);
+
+
+$session = \Stripe\Checkout\Session::create([
+    'payment_method_types' => ['card'],
+    'line_items' => [[
+        'price_data' => [
+            'currency' => 'usd',
+            'product_data' => [
+                'name' => $product->getProductName(), 
+            ],
+            'unit_amount' => $product->getReducPrice() * 100,
+        ],
+        'quantity' => 1, 
+    ]],
+    'mode' => 'payment',
+    'success_url' => $successUrl, 
+    'cancel_url' => 'https://www.google.com/', 
+]);
+    return $this->redirect($session['url']);
+//return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
+        
+
+return $this->redirectToRoute('confirmation');
+}  
         return $this->render('landing_page/index_new.html.twig', [
             'form' => $form,
             'products' => $productRepository->findAll(),
-            'command' => $command
+            'command' => $command,
+
         ]);
-    }
+    
+}
     /**
      * @Route("/confirmation", name="confirmation")
      */
     #[Route('/confirmation', name: 'confirmation')]
-    public function confirmation()
+    public function confirmation(MailerInterface $mailer)
     {
 
-        return $this->render('landing_page/confirmation.html.twig', []);
+        $email = (new Email())
+        ->from("battle@office.com")
+        ->to("aaaa@aaaa.com")
+        ->subject('Confirmation de commande')
+        ->html('
+        <h2>Merci pour votre achat !'.' </h2>
+        <p>Détails de votre commande</p>
+        <p>Mail :'.'zfhskjhflkjh' .'</p>');
+
+         $mailer->send($email);
+
+        return $this->render('landing_page/confirmation.html.twig', [
+            
+        ]);
     }
 }

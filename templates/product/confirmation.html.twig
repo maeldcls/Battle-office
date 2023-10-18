@@ -428,10 +428,10 @@
                                                                 {{ "now"|date('d/m/Y') }}
                                                             </td>
                                                             <td valign="top" class="dataTableContent" mc:edit="data_table_content01">
-                                                                {# {{ product.name }} #}
+                                                                 {{ product.productName }} 
                                                             </td>
                                                             <td valign="top" class="dataTableContent" mc:edit="data_table_content02">
-                                                                {# {{ product.price }} € #}
+                                                                {{ product.reducPrice }} €  
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -450,7 +450,7 @@
                                                         <tr>
                                                             <td valign="middle" class="templateButtonContent">
                                                                 <div mc:edit="std_content02">
-                                                                    <a href="https://www.battleoffice.com/" target="_blank" style="color:white">Visiter la boutique battleoffice.com</a>
+                                                                    <a href="{{ path('landing_page')}}" style="color:white">Visiter la boutique battleoffice.com</a>
                                                                 </div>
                                                             </td>
                                                         </tr>
