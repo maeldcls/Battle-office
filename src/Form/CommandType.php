@@ -12,10 +12,14 @@ class CommandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('adressDelivery', AdressType::class)
-            ->add('adressBilling', AdressType::class)
+            ->add('adressDelivery', AdressType::class, [
+                'label' => ' ', 
+            ])
+            ->add('adressBilling', AdressType::class, [
+                'label' => ' ', 
+            ])
             ->add('client', ClientType::class)
-            //->add('payment', PaymentType::class)
+            
 
           
         ;

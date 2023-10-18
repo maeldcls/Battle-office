@@ -15,7 +15,7 @@ class Command
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commands')]
+    #[ORM\ManyToOne(inversedBy: 'commands', cascade: ['persist', 'remove'])]
     private ?Client $client = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'commands')]
@@ -29,12 +29,14 @@ class Command
     #[ORM\JoinColumn(nullable: false)]
     private ?Adress $adressBilling = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Payment $payment = null;
+   
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Payment $payment = null;
 
     public function __construct()
     {
@@ -106,18 +108,6 @@ class Command
         return $this;
     }
 
-    public function getPayment(): ?Payment
-    {
-        return $this->payment;
-    }
-
-    public function setPayment(Payment $payment): static
-    {
-        $this->payment = $payment;
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -126,6 +116,18 @@ class Command
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?Payment $payment): static
+    {
+        $this->payment = $payment;
 
         return $this;
     }

@@ -3,11 +3,13 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+
     <section class="countdown bg_brand_secondary">
         <div class="container-fluid">
             <div class="row">
                 <div class="col s12 m12 l5">
                     <h4 class="center-align"><b>Dépêchez-vous !!</b> Il ne vous reste que</h4>
+     
                 </div>
                 <div class="col s12 m12 l2">
                     <div class="row center-align">
@@ -25,7 +27,7 @@
             </div>
         </div>
     </section>
-
+   {{ form_start(form) }}
         <div class="container">
             <div class="row">
                 <div class="content col s12 m12 l8">
@@ -39,7 +41,7 @@
                         </div>
                     {% for product in products %}
                         <label class="cure-radio">
-                            <input name="order[cart][cart_products][0]" value="{{ product.id }}" type="radio">
+                            <input name="selected_product_id" required type="radio" value="{{ product.id }}">
                             <article>
                                 <div class="card center-align">
                                     <div class="row">
@@ -204,6 +206,7 @@
                             </div>
                             <div class="col s12">
                                 <div class="card-content">
+                                
                                     <p>Les produits BattleOffice bénéficient de la garantie satisfait ou remboursé. Vous pouvez nous retourner vos produits (sauf si la boîte a été ouverte) et nous vous les rembourserons immédiatement.</p>
                                 </div>
                             </div>
@@ -212,5 +215,5 @@
                 </aside>
             </div>
         </div>
-    </form>
+    {{ form_end(form) }}
 {% endblock %}

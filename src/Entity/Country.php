@@ -16,6 +16,11 @@ class Country
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
+    public function __toString()
+    {
+        return $this->country;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
